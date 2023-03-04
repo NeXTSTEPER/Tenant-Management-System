@@ -36,6 +36,9 @@ public class ApartmentBuilding {
 		this.numberOfApartments = _numberOfApartments;
 		//should always use this constructor (probably)
 	}
+	public ApartmentBuilding(String _name) {
+		this.name = _name;
+	}
 
 		
 	//getters and setters
