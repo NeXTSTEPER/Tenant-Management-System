@@ -31,17 +31,19 @@ public class Tenant {
 	private boolean hasPets;
 	@Column(name="RESIDENCY_DATE")
 	private LocalDate residencyDate;
-	
+	@Column(name="RENT")
+	private float rent;
 	
 	//constructors
 	public Tenant(){
 		super();
 	}
-	public Tenant(String _familyName, int _numberOfOccupants, boolean _hasPets, LocalDate _residencyDate) {
+	public Tenant(String _familyName, int _numberOfOccupants, boolean _hasPets, LocalDate _residencyDate, float _rent) {
 		this.familyName = _familyName;
 		this.numberOfOccupants = _numberOfOccupants;
 		this.hasPets = _hasPets;
 		this.residencyDate = _residencyDate;
+		this.rent = _rent;
 		//we'll probably only need this one different constructor (I think)	
 	}
 	public Tenant(String _familyName) {
@@ -82,13 +84,18 @@ public class Tenant {
 		this.residencyDate = residencyDate;
 	}
 	
+	public float getRent() {
+		return rent;
+	}
+	public void setRent(float rent) {
+		this.rent = rent;
+	}
+
 	
-	
-	//helper methods
 	@Override
 	public String toString() {
 		return "Tenant [id=" + id + ", familyName=" + familyName + ", numberOfOccupants=" + numberOfOccupants
-				+ ", hasPets=" + hasPets + ", residencyDate=" + residencyDate + "]";
+				+ ", hasPets=" + hasPets + ", residencyDate=" + residencyDate + ", rent=" + rent + "]";
 	}
 	
 	
