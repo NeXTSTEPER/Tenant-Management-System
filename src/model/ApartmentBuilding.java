@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 /**
  * @author andrewmccoy - agmccoy
- * CIS175 - Fall 2021
+ * CIS175 - Spring 2023 
  * Mar 4, 2023
  */
 @Entity
