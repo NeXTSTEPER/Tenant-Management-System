@@ -11,12 +11,12 @@ import javax.persistence.TypedQuery;
 import model.Tenant;
 
 
-
 /**
  * @author andrewmccoy - agmccoy
  * CIS175 - Spring 2023
  * Mar 4, 2023
  */
+
 public class TenantHelper {
 	static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Tenant-Management-System");
 	public void inserItem(Tenant te) {
@@ -56,10 +56,10 @@ public class TenantHelper {
 		//remove it
 		em.remove(result);
 		em.getTransaction().commit();
-		em
-		.close();
+		em.close();
 	}
 	
+	//findTenant method to look tenant up by last name
 	public Tenant findTenant(String lastNameToLookup) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();

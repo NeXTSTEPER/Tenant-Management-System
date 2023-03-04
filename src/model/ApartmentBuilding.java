@@ -24,6 +24,8 @@ public class ApartmentBuilding {
 	private String name;
 	@Column(name="NUMBER_OF_APARTMENTS")
 	private int numberOfApartments;//or number of rooms
+	@Column(name="NUMBER_OF_BATHS")
+	private int numberOfBaths; //number of bathrooms in apartment
 	
 	
 	//constructors
@@ -31,11 +33,14 @@ public class ApartmentBuilding {
 		super();
 	}
 	
-	public ApartmentBuilding(String _name, int _numberOfApartments) {
+	public ApartmentBuilding(String _name, int _numberOfApartments, int _numberOfBaths) {
 		this.name = _name;
 		this.numberOfApartments = _numberOfApartments;
+		this.numberOfBaths = _numberOfBaths;
 		//should always use this constructor (probably)
 	}
+	
+
 	public ApartmentBuilding(String _name) {
 		this.name = _name;
 	}
@@ -60,12 +65,18 @@ public class ApartmentBuilding {
 	public void setNumberOfApartments(int numberOfApartments) {
 		this.numberOfApartments = numberOfApartments;
 	}
+	public int getNumberOfBaths() {
+		return numberOfBaths;
+	}
 
+	public void setNumberOfBaths(int numberOfBaths) {
+		this.numberOfBaths = numberOfBaths;
+	}
 		
-	//helper methods	
 	@Override
 	public String toString() {
-		return "ApartmentBuilding [id=" + id + ", name=" + name + ", numberOfApartments=" + numberOfApartments + "]";
+		return "ApartmentBuilding [id=" + id + ", name=" + name + ", numberOfApartments=" + numberOfApartments
+				+ ", numberOfBaths=" + numberOfBaths + "]";
 	}
 	
 }
