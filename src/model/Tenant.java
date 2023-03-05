@@ -16,8 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="tenant")
 public class Tenant {
-	
-	
+
 	//properties
 	@Id
 	@GeneratedValue
