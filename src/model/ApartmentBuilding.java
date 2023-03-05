@@ -45,7 +45,7 @@ public class ApartmentBuilding {
 		this.name = _name;
 	}
 
-		
+	
 	//getters and setters
 	public int getId() {
 		return id;

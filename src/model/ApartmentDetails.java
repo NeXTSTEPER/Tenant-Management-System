@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -30,11 +31,11 @@ public class ApartmentDetails {
 	private int id;	
 	@Column(name="APARTMENT_LIST_NAME")
 	private String apartmentListName;
-	@Column(name="BUILDING")
+	@JoinColumn(name="BUILDING")
 	@ManyToOne (cascade = CascadeType.PERSIST)
 	private ApartmentBuilding building;
-	@Column(name="LIST_OF_TENANTS")
-	@OneToMany (cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@JoinColumn(name="LIST_OF_TENANTS")
+	@OneToMany (cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<Tenant> listOfTenants;
 	
 	
