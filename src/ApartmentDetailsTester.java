@@ -1,5 +1,10 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Scanner;
 
 import controller.ApartmentDetailsHelper;
 import model.ApartmentBuilding;
@@ -8,16 +13,15 @@ import model.Tenant;
 
 /**
  * @author andrewmccoy - agmccoy
- * CIS175 - Fall 2021
+ * CIS175 - Spring 2023
  * Mar 4, 2023
  */
 public class ApartmentDetailsTester {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		ApartmentDetailsHelper adh = new ApartmentDetailsHelper();
 		
-		ApartmentBuilding buildingOne = new ApartmentBuilding("Apartment One", 15, 30);
+		ApartmentBuilding buildingOne = new ApartmentBuilding("Apartment Complex One", 15, 30);
 		Tenant tenantOne = new Tenant("McCoy", 3, false, LocalDate.now(), 1500);
 		Tenant tenantTwo = new Tenant("Smiths", 4, true, LocalDate.now(), 1200);
 		Tenant tenantThree = new Tenant("Coxs", 2, false, LocalDate.now(), 1300);
@@ -26,9 +30,24 @@ public class ApartmentDetailsTester {
 		listOfTenants.add(tenantTwo);
 		listOfTenants.add(tenantThree);
 		
-		var ApartmentDetails = new ApartmentDetails("Apartment One Details", buildingOne, listOfTenants);
+		//Date testing
+		//Prompting for user input
+		Scanner in = new Scanner(System.in);
+		System.out.println("Enter your moving date:");
+		String userChoice = in.nextLine();
 		
+		// Print & format the result for testing
+		Date date = Tenant.dateConverter(userChoice); //new date to store converted user input
+		
+		//System.out.println(new SimpleDateFormat("EEEEE MMMM d, yyyy").format(date)); //formatted output - gives weekday of move in
+		//System.out.println(tenantThree.getResidencyDate()); //Testing residency date
+		
+		LocalDate lDateResidency = Tenant.dateToLocalDate(date);
+		
+		tenantThree.setResidencyDate(lDateResidency);
+		var ApartmentDetails = new ApartmentDetails("Apartment Complex One Details", buildingOne, listOfTenants);
 		adh.insertNewApartmentDetails(ApartmentDetails);
 		
+	in.close();
 	}
 }
