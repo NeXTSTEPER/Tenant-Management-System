@@ -1,7 +1,10 @@
 package model;
 
 import java.time.LocalDate;
-
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +19,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="tenant")
 public class Tenant {
-	
-	
+
 	//properties
 	@Id
 	@GeneratedValue
@@ -33,7 +35,7 @@ public class Tenant {
 	private LocalDate residencyDate;
 	@Column(name="RENT")
 	private float rent;
-	
+
 	//constructors
 	public Tenant(){
 		super();
@@ -98,7 +100,21 @@ public class Tenant {
 				+ ", hasPets=" + hasPets + ", residencyDate=" + residencyDate + ", rent=" + rent + "]";
 	}
 	
-	
-	
+	//Method to convert string into Date for better formatting in output
+	 public static Date dateConverter(String string){
+	        // Converting the string to date
+	        // in the specified format
+		    DateTimeFormatter format = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+	        LocalDate lDate = LocalDate.parse(string, format);
+	        Date date = Date.from(lDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+	        // Returning the converted date
+	        return date;
+	    }
 
+	 //converts Date to LocalDate to pass into Residency date
+	 public static LocalDate dateToLocalDate(Date date) {
+		 LocalDate ldate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		 return ldate;
+	 }
+	 
 }
