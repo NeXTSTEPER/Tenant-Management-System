@@ -40,12 +40,12 @@ public class TenantHelper {
 		TypedQuery<Tenant> typedQuery = em.createQuery
 			("select te from Tenant te where te.familyName = :selectedFamilyName "
 					+ "and te.numberOfOccupants = :selectedNumberOfOccupants "
-					+ "and te.hasPets = :" , Tenant.class);
+					+ "and te.hasPets = :selectedPets" , Tenant.class);
 		
 		//Substitute parameter with actual data from the toDelete item
 		typedQuery.setParameter("selectedFamilyName", toDelete.getFamilyName());
 		typedQuery.setParameter("selectedNumberOfOccupants", toDelete.getNumberOfOccupants());
-		typedQuery.setParameter("hasPets", toDelete.isHasPets());
+		typedQuery.setParameter("selectedPets", toDelete.isHasPets());
 		
 		//we only want one result
 		typedQuery.setMaxResults(1);

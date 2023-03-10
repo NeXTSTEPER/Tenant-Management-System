@@ -6,7 +6,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
+import controller.ApartmentBuildingHelper;
 import controller.ApartmentDetailsHelper;
+import controller.TenantHelper;
 import model.ApartmentBuilding;
 import model.ApartmentDetails;
 import model.Tenant;
@@ -20,7 +22,15 @@ public class ApartmentDetailsTester {
 
 	public static void main(String[] args) {
 		ApartmentDetailsHelper adh = new ApartmentDetailsHelper();
+		TenantHelper th = new TenantHelper();
+		ApartmentBuildingHelper abh = new ApartmentBuildingHelper();
 		
+
+		
+		
+		
+		  			  		 		 	
+
 		ApartmentBuilding buildingOne = new ApartmentBuilding("Apartment Complex One", 15, 30);
 		Tenant tenantOne = new Tenant("McCoy", 3, false, LocalDate.now(), 1500);
 		Tenant tenantTwo = new Tenant("Smiths", 4, true, LocalDate.now(), 1200);
@@ -49,5 +59,6 @@ public class ApartmentDetailsTester {
 		adh.insertNewApartmentDetails(ApartmentDetails);
 		
 	in.close();
+
 	}
 }
