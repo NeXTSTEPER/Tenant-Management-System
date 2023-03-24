@@ -18,18 +18,14 @@ import model.Tenant;
  * CIS175 - Spring 2023
  * Mar 4, 2023
  */
+
+//Testing class 
 public class ApartmentDetailsTester {
 
 	public static void main(String[] args) {
 		ApartmentDetailsHelper adh = new ApartmentDetailsHelper();
 		TenantHelper th = new TenantHelper();
-		ApartmentBuildingHelper abh = new ApartmentBuildingHelper();
-		
-
-		
-		
-		
-		  			  		 		 	
+		ApartmentBuildingHelper abh = new ApartmentBuildingHelper(); 		 		 	
 
 		ApartmentBuilding buildingOne = new ApartmentBuilding("Apartment Complex One", 15, 30);
 		Tenant tenantOne = new Tenant("McCoy", 3, false, LocalDate.now(), 1500);
@@ -43,20 +39,24 @@ public class ApartmentDetailsTester {
 		//Date testing
 		//Prompting for user input
 		Scanner in = new Scanner(System.in);
-		System.out.println("Enter your moving date:");
+		System.out.println("Enter your moving date(MM-DD-YYYY):");
 		String userChoice = in.nextLine();
 		
 		// Print & format the result for testing
 		Date date = Tenant.dateConverter(userChoice); //new date to store converted user input
+	
+		//formatted output - gives weekday of move in
+		System.out.println(new SimpleDateFormat("EEEEE MMMM d, yyyy").format(date)); 
+	
+		//Converting from Date to LocalDate
+		LocalDate lDateResidency = Tenant.dateToLocalDate(date); 
 		
-		//System.out.println(new SimpleDateFormat("EEEEE MMMM d, yyyy").format(date)); //formatted output - gives weekday of move in
-		//System.out.println(tenantThree.getResidencyDate()); //Testing residency date
-		
-		LocalDate lDateResidency = Tenant.dateToLocalDate(date);
-		
-		tenantThree.setResidencyDate(lDateResidency);
+		tenantThree.setResidencyDate(lDateResidency); //set residency date from date gathered from prompt
 		var ApartmentDetails = new ApartmentDetails("Apartment Complex One Details", buildingOne, listOfTenants);
 		adh.insertNewApartmentDetails(ApartmentDetails);
+		
+		
+		System.out.println(tenantThree.getResidencyDate()); //Testing residency date
 		
 	in.close();
 
