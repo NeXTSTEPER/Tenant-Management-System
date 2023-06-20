@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@page import="java.util.*,movies.Movies, books.Books"%>
+<%@page import="java.util.*,tenants.Tenants,apartments.Apartment"%>
 
 <!DOCTYPE html>
 <html>
@@ -85,59 +85,47 @@
         <div class="container">
             <br>
             <a href="index.jsp" class="back-to-index">Back</a>
-            <h1>JPA Movie List</h1>
-            <form method="POST" action="MoviesServlet" onsubmit="return validateForm()">
-                Movie Title: <input type="text" id="movieTitle" name="movieTitle" />
-                Movie Director: <input type="text" id="movieDirector" name="movieDirector" />
-                Based on Book:
-               <select id="bookId" name="bookId">
-                   <option value="-1">None</option>
-                    <% @SuppressWarnings("unchecked")
-                       List<Books> books = (List<Books>)request.getAttribute("books");
-                       for (Books book : books) { %>
-                        <option value="<%= book.getId() %>"><%= book.getBookTitle() %></option>
-                    <% } %>
-                </select>
+            <h1>JPA Tenant List</h1>
+            <form method="POST" action="TenantsServlet" onsubmit="return validateForm()">
+                Tenant Name: <input type="text" id="tenantName" name="tenantName" />
+                Tenant Phone Number: <input type="text" id="tenantPhoneNumber" name="tenantPhoneNumber" />
+                Rooms Desired: <input type="text" id="roomsDesired" name="roomsDesired" />
                 <input type="submit" value="Add" />
-                <p id="error" style="color:red; display:none">Please enter a movie title and director.</p>
+                <p id="error" style="color:red; display:none">Please enter a tenant name, phone number, and number of rooms desired.</p>
             </form>
             <hr>
-         <ol> 
-    <%
-     @SuppressWarnings("unchecked")
-     List<Movies> movies = (List<Movies>)request.getAttribute("movies");
-     for (Movies movie : movies) {
-    %>
-        <div class="movie">
-            <li> <%= movie.getMovieTitle() %> by <%= movie.getMovieDirector() %> 
-            <% if (movie.getBook() != null) { %>
-                (Based on: <%= movie.getBook().getBookTitle() %>)
-            <% } else { %>
-                (Not based on a book)
-            <% } %>
-            </li>
-            <form method="POST" action="MoviesServlet">
-                <input type="hidden" name="id" value="<%=movie.getId()%>" />
-                <input type="text" name="movieTitle" value="<%=movie.getMovieTitle()%>" />
-                <input type="text" name="movieDirector" value="<%=movie.getMovieDirector()%>" />
-                <input type="hidden" name="operation" value="update" />
-                <input type="submit" value="Update" />
-            </form>
-            <form method="POST" action="MoviesServlet">
-                <input type="hidden" name="id" value="<%=movie.getId()%>" />
-                <input type="hidden" name="operation" value="delete" />
-                <input type="submit" value="Delete" />
-            </form>
-        </div>
-    <% } %>
-</ol>
+            <ol> 
+                <%
+                    @SuppressWarnings("unchecked")
+                    List<Tenants> tenants = (List<Tenants>)request.getAttribute("tenants");
+                    for (Tenants tenant : tenants) {
+                %>
+                    <div class="tenant">
+                        <li> <%= tenant.getName() %> - <%= tenant.getPhoneNumber() %> - <%= tenant.getNumberOfRoomsDesired() %> rooms desired </li>
+                        <form method="POST" action="TenantsServlet">
+                            <input type="hidden" name="id" value="<%=tenant.getId()%>" />
+                            <input type="text" name="tenantName" value="<%=tenant.getName()%>" />
+                            <input type="text" name="tenantPhoneNumber" value="<%=tenant.getPhoneNumber()%>" />
+                            <input type="text" name="roomsDesired" value="<%=tenant.getNumberOfRoomsDesired()%>" />
+                            <input type="hidden" name="operation" value="update" />
+                            <input type="submit" value="Update" />
+                        </form>
+                        <form method="POST" action="TenantsServlet">
+                            <input type="hidden" name="id" value="<%=tenant.getId()%>" />
+                            <input type="hidden" name="operation" value="delete" />
+                            <input type="submit" value="Delete" />
+                        </form>
+                    </div>
+                <% } %>
+            </ol>
             <hr>
         </div>
         <script>
             function validateForm() {
-                var movieTitle = document.getElementById('movieTitle').value;
-                var movieDirector = document.getElementById('movieDirector').value;
-                if (movieTitle == "" || movieDirector == "") {
+                var tenantName = document.getElementById('tenantName').value;
+                var tenantPhoneNumber = document.getElementById('tenantPhoneNumber').value;
+                var roomsDesired = document.getElementById('roomsDesired').value;
+                if (tenantName == "" || tenantPhoneNumber == "" || roomsDesired == "") {
                     document.getElementById('error').style.display = 'block';
                     return false;
                 } else {

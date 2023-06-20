@@ -38,9 +38,9 @@
         </style>
     </head>
     <body>
-        <h1>Reading and Watch List</h1> 
-        <p><a href="BookServlet">Reading List</a></p>
-        <p><a href="MoviesServlet">Movie Watchlist</a></p>        
+        <h1>Tenant Manager</h1> 
+        <p><a href="ApartmentServlet">Apartments</a></p>
+        <p><a href="TenantsServlet">Tenants</a></p>        
             
       
     </body>

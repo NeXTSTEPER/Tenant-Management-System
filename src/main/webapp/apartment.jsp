@@ -1,10 +1,10 @@
 <%@page contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@page import="java.util.*,books.Books"%>
+<%@page import="java.util.*,apartments.Apartment"%>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title>JPA Reading List </title>
+        <title>Apartment Manager</title>
   <style>
         body {
                 font-family: 'Helvetica', serif;
@@ -106,36 +106,38 @@ a.back-to-index:hover {
 
   <body>
         <div class="container">
-        <br>
+            <br>
             <a href="index.jsp" class="back-to-index"> Back</a>
         
-            <h1>JPA Reading List</h1>
-            <form method="POST" action="BookServlet" onsubmit="return validateForm()">
-                Book Title: <input type="text" id="bookTitle" name="bookTitle" />
-                Book Author: <input type="text" id="bookAuthor" name="bookAuthor" />
+            <h1>Apartment Manager</h1>
+            <form method="POST" action="ApartmentServlet" onsubmit="return validateForm()">
+                Address: <input type="text" id="address" name="address" />
+                Rent: <input type="text" id="rent" name="rent" />
+                Number of Rooms: <input type="text" id="numberOfRooms" name="numberOfRooms" />
                 <input type="submit" value="Add" />
-                <p id="error" style="color:red; display:none">Please enter a book title and author.</p>
+                <p id="error" style="color:red; display:none">Please enter an address, rent, and number of rooms.</p>
             </form>
             <hr>
             <ol> 
                 <%
                  @SuppressWarnings("unchecked")
-                                 List<Books> books = (List<Books>)request.getAttribute("books");
-                                 for (Books book : books) {
-                 %>
-                    <div class="book">
-                        <li> <%= book %> </li>
+                 List<Apartment> apartments = (List<Apartment>)request.getAttribute("apartments");
+                 for (Apartment apartment : apartments) {
+                %>
+                    <div class="apartment">
+                        <li> <%= apartment %> </li>
 
-                        <form method="POST" action="BookServlet">
-                            <input type="hidden" name="id" value="<%=book.getId()%>" />
-                            <input type="text" name="bookTitle" value="<%=book.getBookTitle()%>" />
-                            <input type="text" name="bookAuthor" value="<%=book.getBookAuthor()%>" />
+                        <form method="POST" action="ApartmentServlet">
+                            <input type="hidden" name="id" value="<%=apartment.getId()%>" />
+                            <input type="text" name="address" value="<%=apartment.getAddress()%>" />
+                            <input type="text" name="rent" value="<%=apartment.getRent()%>" />
+                            <input type="text" name="numberOfRooms" value="<%=apartment.getNumberOfRooms()%>" />
                             <input type="hidden" name="operation" value="update" />
                             <input type="submit" value="Update" />
                         </form>
 
-                        <form method="POST" action="BookServlet">
-                            <input type="hidden" name="id" value="<%=book.getId()%>" />
+                        <form method="POST" action="ApartmentServlet">
+                            <input type="hidden" name="id" value="<%=apartment.getId()%>" />
                             <input type="hidden" name="operation" value="delete" />
                             <input type="submit" value="Delete" />
                         </form>
@@ -147,9 +149,10 @@ a.back-to-index:hover {
         </div>
         <script>
             function validateForm() {
-                var bookTitle = document.getElementById('bookTitle').value;
-                var bookAuthor = document.getElementById('bookAuthor').value;
-                if (bookTitle == "" || bookAuthor == "") {
+                var address = document.getElementById('address').value;
+                var rent = document.getElementById('rent').value;
+                var numberOfRooms = document.getElementById('numberOfRooms').value;
+                if (address == "" || rent == "" || numberOfRooms == "") {
                     document.getElementById('error').style.display = 'block';
                     return false;
                 } else {

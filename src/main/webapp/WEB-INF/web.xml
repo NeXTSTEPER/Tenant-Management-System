@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>ReadingList</display-name>
+  <display-name>TenantManager</display-name>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   <listener>
-    <listener-class>books.BookListener</listener-class>
+    <listener-class>apartments.ApartmentListener</listener-class>
   </listener>
   <listener>
-    <listener-class>movies.MovieListener</listener-class>
+    <listener-class>tenants.TenantListener</listener-class>
   </listener>
-  <servlet>
+   <servlet>
     <description></description>
-    <display-name>BookServlet</display-name>
-    <servlet-name>BookServlet</servlet-name>
-    <servlet-class>books.BookServlet</servlet-class>
+    <display-name>ApartmentServlet</display-name>
+    <servlet-name>ApartmentServlet</servlet-name>
+    <servlet-class>apartments.ApartmentServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>BookServlet</servlet-name>
-    <url-pattern>/BookServlet</url-pattern>
+    <servlet-name>ApartmentServlet</servlet-name>
+    <url-pattern>/ApartmentServlet</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>MoviesServlet</display-name>
-    <servlet-name>MoviesServlet</servlet-name>
-    <servlet-class>movies.MoviesServlet</servlet-class>
+    <display-name>TenantsServlet</display-name>
+    <servlet-name>TenantsServlet</servlet-name>
+    <servlet-class>tenants.TenantsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MoviesServlet</servlet-name>
-    <url-pattern>/MoviesServlet</url-pattern>
+    <servlet-name>TenantsServlet</servlet-name>
+    <url-pattern>/TenantsServlet</url-pattern>
   </servlet-mapping>
 </web-app>
