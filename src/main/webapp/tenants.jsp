@@ -87,12 +87,15 @@
             <a href="index.jsp" class="back-to-index">Back</a>
             <h1>Tenants</h1>
                
+               <% if (request.getAttribute("error") != null) { %>
+    <p style="color:red;"><%= request.getAttribute("error") %></p>
+<% } %>
                
                <form method="POST" action="TenantsServlet" onsubmit="return validateForm()">
                 Tenant Name: <input type="text" id="tenantName" name="tenantName" />
                 Tenant Phone Number: <input type="text" id="tenantPhoneNumber" name="tenantPhoneNumber" />
                 Rooms Desired: <input type="text" id="roomsDesired" name="roomsDesired" />
-                <select id="apartmentId" name="apartmentId">
+               <select id="apartmentId" name="apartmentId" onchange="validateRooms()">
     <option value="-1">None</option>
     <% 
     @SuppressWarnings("unchecked")
@@ -151,18 +154,36 @@
 <hr>
 
         </div>
-        <script>
-            function validateForm() {
-                var tenantName = document.getElementById('tenantName').value;
-                var tenantPhoneNumber = document.getElementById('tenantPhoneNumber').value;
-                var roomsDesired = document.getElementById('roomsDesired').value;
-                if (tenantName == "" || tenantPhoneNumber == "" || roomsDesired == "") {
-                    document.getElementById('error').style.display = 'block';
-                    return false;
-                } else {
-                    return true;
-                }
+       <script>
+    function validateForm() {
+        var tenantName = document.getElementById('tenantName').value;
+        var tenantPhoneNumber = document.getElementById('tenantPhoneNumber').value;
+        var roomsDesired = document.getElementById('roomsDesired').value;
+        if (tenantName == "" || tenantPhoneNumber == "" || roomsDesired == "") {
+            document.getElementById('error').style.display = 'block';
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    function validateRooms() {
+        var apartmentId = document.getElementById('apartmentId').value;
+        var roomsDesired = document.getElementById('roomsDesired').value; // Assuming you have an input field with id 'roomsDesired'
+
+        // Fetch the number of rooms for the selected apartment
+        // This would require an API endpoint in your servlet that returns the number of rooms for a given apartment ID
+        fetch('/TenantsServlet?operation=getNumberOfRooms&apartmentId=' + apartmentId)
+        .then(response => response.text())
+        .then(numberOfRooms => {
+            if (parseInt(roomsDesired) > parseInt(numberOfRooms)) {
+                alert('The number of rooms desired by the tenant is greater than the number of rooms in the selected apartment. Please choose a different apartment.');
             }
-        </script>
+        });
+    }
+    
+  
+</script>
+
     </body>
 </html>

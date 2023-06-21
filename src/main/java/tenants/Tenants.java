@@ -76,10 +76,7 @@ public class Tenants implements Serializable {
         return phoneNumber;
     }
 
-    // Method to get the number of rooms desired by the tenant
-    public int getNumberOfRoomsDesired() {
-        return numberOfRoomsDesired;
-    }
+  
 
     // Setter methods
     // Method to set the id of the tenant
@@ -102,6 +99,10 @@ public class Tenants implements Serializable {
         this.numberOfRoomsDesired = numberOfRoomsDesired;
     }
     
+    // Method to get the number of rooms desired by the tenant
+    public int getNumberOfRoomsDesired() {
+        return numberOfRoomsDesired;
+    }
     //getters and setters for 'apartment'
     public Apartment getApartment() {
         return apartment;

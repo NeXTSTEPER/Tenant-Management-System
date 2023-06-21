@@ -14,10 +14,22 @@ public class TenantsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String operation = request.getParameter("operation");
+        String apartmentId = request.getParameter("apartmentId");
+       
+
         EntityManagerFactory emf = (EntityManagerFactory)getServletContext().getAttribute("emf");
         EntityManager em = emf.createEntityManager();
 
         try {
+            if (operation != null && operation.equals("getNumberOfRooms") && apartmentId != null) {
+                Apartment apartment = em.find(Apartment.class, Integer.parseInt(apartmentId));
+                if (apartment != null) {
+                    response.getWriter().write(String.valueOf(apartment.getNumberOfRooms()));
+                    return;
+                }
+            }
+
             // Fetch the list of apartments and set it as a request attribute
             List<Apartment> apartmentList = em.createQuery("SELECT a FROM Apartment a", Apartment.class).getResultList();
             request.setAttribute("apartments", apartmentList);
@@ -34,6 +46,7 @@ public class TenantsServlet extends HttpServlet {
             em.close();
         }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -53,6 +66,11 @@ public class TenantsServlet extends HttpServlet {
                 em.getTransaction().begin();
                 Tenants tenant = em.find(Tenants.class, Integer.parseInt(id));
                 if (tenant != null) {
+                    Apartment apartment = tenant.getApartment();
+                    if (apartment != null) {
+                        apartment.setSelected(false);
+                        em.merge(apartment);
+                    }
                     em.remove(tenant);
                 }
                 em.getTransaction().commit();
@@ -66,7 +84,12 @@ public class TenantsServlet extends HttpServlet {
                     tenant.setNumberOfRoomsDesired(Integer.parseInt(roomsDesired));
                     if (apartmentId != null && !apartmentId.equals("-1")) {
                         Apartment apartment = em.find(Apartment.class, Integer.parseInt(apartmentId));
-                        tenant.setApartment(apartment);
+                        if (apartment.getNumberOfRooms() >= tenant.getNumberOfRoomsDesired()) {
+                            tenant.setApartment(apartment);
+                        } else {
+                            request.setAttribute("error", "The number of rooms desired by the tenant is greater than the number of rooms in the selected apartment. Please choose a different apartment.");
+                            return;
+                        }
                     }
                 }
                 em.getTransaction().commit();
@@ -79,7 +102,31 @@ public class TenantsServlet extends HttpServlet {
                 Tenants tenant = new Tenants(tenantName, tenantPhoneNumber, Integer.parseInt(roomsDesired));
                 if (apartmentId != null && !apartmentId.equals("-1")) {
                     Apartment apartment = em.find(Apartment.class, Integer.parseInt(apartmentId));
-                    tenant.setApartment(apartment);
+                    if (apartment.getNumberOfRooms() >= tenant.getNumberOfRoomsDesired()) {
+                        if (apartment.isSelected()) {
+                            request.setAttribute("error", "This apartment is already selected by another user. Please choose a different apartment.");
+                            request.getRequestDispatcher("/tenants.jsp").forward(request, response);
+                            return;
+                        } else {
+                            apartment.setSelected(true);
+                            
+                            tenant.setApartment(apartment);
+                        }
+                    } else {
+                        request.setAttribute("error", "The number of rooms desired by the tenant is greater than the number of rooms in the selected apartment. Please choose a different apartment.");
+
+                        // Fetch the list of apartments and set it as a request attribute
+                        List<Apartment> apartmentList = em.createQuery("SELECT a FROM Apartment a", Apartment.class).getResultList();
+                        request.setAttribute("apartments", apartmentList);
+
+                        // Fetch the list of tenants and set it as a request attribute
+                        List<Tenants> tenantsList = em.createQuery("SELECT t FROM Tenants t", Tenants.class).getResultList();
+                        request.setAttribute("tenants", tenantsList);
+
+                        // Forward the request and response to the JSP page
+                        request.getRequestDispatcher("/tenants.jsp").forward(request, response);
+                        return;
+                    }
                 }
                 em.persist(tenant);
                 em.getTransaction().commit();
@@ -95,11 +142,25 @@ public class TenantsServlet extends HttpServlet {
             List<Tenants> tenantsList = em.createQuery("SELECT t FROM Tenants t", Tenants.class).getResultList();
             request.setAttribute("tenants", tenantsList);
 
+            // Forward the request and response to the JSP page
             request.getRequestDispatcher("/tenants.jsp").forward(request, response);
-        } finally {
+
+        }finally {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
+
+            // Fetch the list of apartments and set it as a request attribute
+            List<Apartment> apartmentList = em.createQuery("SELECT a FROM Apartment a", Apartment.class).getResultList();
+            request.setAttribute("apartments", apartmentList);
+
+            // Fetch the list of tenants and set it as a request attribute
+            List<Tenants> tenantsList = em.createQuery("SELECT t FROM Tenants t", Tenants.class).getResultList();
+            request.setAttribute("tenants", tenantsList);
+
+            // Forward the request and response to the JSP page
+            request.getRequestDispatcher("/tenants.jsp").forward(request, response);
+
             em.close();
         }
     }

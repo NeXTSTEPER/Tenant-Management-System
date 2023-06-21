@@ -31,6 +31,16 @@ public class Apartment implements Serializable {
     private double rent;
 
     private int numberOfRooms;
+    
+    public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
+	}
+
+	private boolean isSelected;
 
     public Apartment() {
     }
