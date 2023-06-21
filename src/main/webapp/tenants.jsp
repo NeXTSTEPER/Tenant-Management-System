@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>JPA Movie List</title>
+        <title>Tenants</title>
         <style>
      body {
                 font-family: 'Helvetica', serif;
@@ -85,40 +85,71 @@
         <div class="container">
             <br>
             <a href="index.jsp" class="back-to-index">Back</a>
-            <h1>JPA Tenant List</h1>
-            <form method="POST" action="TenantsServlet" onsubmit="return validateForm()">
+            <h1>Tenants</h1>
+               
+               
+               <form method="POST" action="TenantsServlet" onsubmit="return validateForm()">
                 Tenant Name: <input type="text" id="tenantName" name="tenantName" />
                 Tenant Phone Number: <input type="text" id="tenantPhoneNumber" name="tenantPhoneNumber" />
                 Rooms Desired: <input type="text" id="roomsDesired" name="roomsDesired" />
+                <select id="apartmentId" name="apartmentId">
+    <option value="-1">None</option>
+    <% 
+    @SuppressWarnings("unchecked")
+    List<Apartment> apartments = (List<Apartment>)request.getAttribute("apartments");
+    for (Apartment apartment : apartments) {
+    %>
+        <option value="<%=apartment.getId()%>"><%=apartment.getId()%></option>
+    <% 
+    }
+    %>
+</select>
                 <input type="submit" value="Add" />
                 <p id="error" style="color:red; display:none">Please enter a tenant name, phone number, and number of rooms desired.</p>
             </form>
-            <hr>
-            <ol> 
-                <%
-                    @SuppressWarnings("unchecked")
-                    List<Tenants> tenants = (List<Tenants>)request.getAttribute("tenants");
-                    for (Tenants tenant : tenants) {
-                %>
-                    <div class="tenant">
-                        <li> <%= tenant.getName() %> - <%= tenant.getPhoneNumber() %> - <%= tenant.getNumberOfRoomsDesired() %> rooms desired </li>
-                        <form method="POST" action="TenantsServlet">
-                            <input type="hidden" name="id" value="<%=tenant.getId()%>" />
-                            <input type="text" name="tenantName" value="<%=tenant.getName()%>" />
-                            <input type="text" name="tenantPhoneNumber" value="<%=tenant.getPhoneNumber()%>" />
-                            <input type="text" name="roomsDesired" value="<%=tenant.getNumberOfRoomsDesired()%>" />
-                            <input type="hidden" name="operation" value="update" />
-                            <input type="submit" value="Update" />
-                        </form>
-                        <form method="POST" action="TenantsServlet">
-                            <input type="hidden" name="id" value="<%=tenant.getId()%>" />
-                            <input type="hidden" name="operation" value="delete" />
-                            <input type="submit" value="Delete" />
-                        </form>
-                    </div>
-                <% } %>
-            </ol>
-            <hr>
+           <hr>
+<ol> 
+    <%
+        @SuppressWarnings("unchecked")
+        List<Tenants> tenants = (List<Tenants>)request.getAttribute("tenants");
+        for (Tenants tenant : tenants) {
+    %>
+        <div class="tenant">
+            <li> <%= tenant.getName() %> - <%= tenant.getPhoneNumber() %> - <%= tenant.getNumberOfRoomsDesired() %> rooms desired 
+            <% if (tenant.getApartment() != null) { %>
+                (Apartment: <%= tenant.getApartment().getId() %>)
+            <% } else { %>
+                (No apartment assigned)
+            <% } %>
+            </li>
+            <form method="POST" action="TenantsServlet">
+                <input type="hidden" name="id" value="<%=tenant.getId()%>" />
+                <input type="text" name="tenantName" value="<%=tenant.getName()%>" />
+                <input type="text" name="tenantPhoneNumber" value="<%=tenant.getPhoneNumber()%>" />
+                <input type="text" name="roomsDesired" value="<%=tenant.getNumberOfRoomsDesired()%>" />
+                <select id="apartmentId" name="apartmentId">
+                    <option value="-1">None</option>
+                    <% 
+                    for (Apartment apartment : apartments) {
+                    %>
+                        <option value="<%=apartment.getId()%>" <%= tenant.getApartment() != null && tenant.getApartment().getId() == apartment.getId() ? "selected" : "" %>><%=apartment.getId()%></option>
+                    <% 
+                    }
+                    %>
+                </select>
+                <input type="hidden" name="operation" value="update" />
+                <input type="submit" value="Update" />
+            </form>
+            <form method="POST" action="TenantsServlet">
+                <input type="hidden" name="id" value="<%=tenant.getId()%>" />
+                <input type="hidden" name="operation" value="delete" />
+                <input type="submit" value="Delete" />
+            </form>
+        </div>
+    <% } %>
+</ol>
+<hr>
+
         </div>
         <script>
             function validateForm() {
