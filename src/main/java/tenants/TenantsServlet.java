@@ -85,7 +85,21 @@ public class TenantsServlet extends HttpServlet {
                     if (apartmentId != null && !apartmentId.equals("-1")) {
                         Apartment apartment = em.find(Apartment.class, Integer.parseInt(apartmentId));
                         if (apartment.getNumberOfRooms() >= tenant.getNumberOfRoomsDesired()) {
-                            tenant.setApartment(apartment);
+                            // Check if the apartment is already selected by another tenant
+                            if (apartment.isSelected() && (tenant.getApartment() == null || tenant.getApartment().getId() != apartment.getId())) {
+                                request.setAttribute("error", "This apartment is already selected by another tenant. Please choose a different apartment.");
+                                return;
+                            } else {
+                                // If the tenant had a different apartment before, mark it as not selected
+                                if (tenant.getApartment() != null && tenant.getApartment().getId() != apartment.getId()) {
+                                    Apartment oldApartment = tenant.getApartment();
+                                    oldApartment.setSelected(false);
+                                    em.merge(oldApartment);
+                                }
+                                // Assign the new apartment to the tenant and mark it as selected
+                                apartment.setSelected(true);
+                                tenant.setApartment(apartment);
+                            }
                         } else {
                             request.setAttribute("error", "The number of rooms desired by the tenant is greater than the number of rooms in the selected apartment. Please choose a different apartment.");
                             return;
@@ -93,7 +107,8 @@ public class TenantsServlet extends HttpServlet {
                     }
                 }
                 em.getTransaction().commit();
-            } 
+            }
+
             else if (operation != null && operation.equals("update")) {
                 request.setAttribute("error", "Please enter a tenant name, phone number, and number of rooms desired for update.");
             } 
