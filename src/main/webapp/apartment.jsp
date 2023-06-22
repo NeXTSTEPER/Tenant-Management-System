@@ -6,98 +6,117 @@
     <head>
         <title>Apartment Manager</title>
   <style>
-        body {
+          body {
                 font-family: 'Helvetica', serif;
                 margin: 0;
                 padding: 0;
-                background-color: #000;
-                color: #fff;
+                background-color: #f4f4f4;
+                color: #333;
             }
+
             h1 {
-                font-size: 4.5em;
+                font-size: 2.5em;
                 text-align: center;
                 padding: 20px 0;
-                border-bottom: 1px solid #fff;
+                border-bottom: 1px solid #ddd;
+                margin-bottom: 20px;
             }
+
+            p {
+                text-align: center;
+                font-size: 1.5em;
+                padding: 15px 0;
+                margin-bottom: 20px;
+            }
+
+            a {
+                color: #337ab7;
+                text-decoration: none;
+                transition: color 0.5s;
+            }
+
+            a:hover {
+                color: #23527c;
+            }
+
             form {
                 margin-bottom: 20px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
             }
+
             input[type="text"] {
                 margin: 5px 0;
                 padding: 10px;
                 width: 80%;
                 border-radius: 5px;
                 border: 1px solid #ccc;
-                color: #000;
+                color: #333;
                 background-color: #fff;
             }
-            input[type="submit"] {
-                margin: 5px 0;
-                padding: 10px;
-                width: 30%;
-                border-radius: 5px;
-                border: 1px solid #ccc;
-                background-color: #ff4b3e;
-                color: #000;
-                cursor: pointer;
-                transition: background-color 0.5s;
-            }
+
+          
             input[type="submit"]:hover {
                 background-color: #fff;
             }
-            .book {
-                border-bottom: 1px solid #fff;
+
+            .apartment {
+                border-bottom: 1px solid #ddd;
                 padding-bottom: 10px;
                 margin-bottom: 20px;
-                font-size: 2.8em;
+                font-size: 1.5em;
                 text-align: center;
             }
+
             p#error {
                 color: #ff4b3e;
             }
-            div {
+
+            .container {
                 padding: 0 20px;
+            }
+
+            a.back-to-index {
+                display: inline-block;
+                margin-bottom: 20px;
+                padding: 10px;
+                color: #337ab7;
+                text-decoration: none;
+                border: 1px solid #4A7BB3;
+                border-radius: 5px;
+                transition: background-color 0.3s, color 0.3s;
+            }
+
+            a.back-to-index:hover {
+                background-color: #4A7BB3;
+                color: white;
             }
             
              input[type="text"] {
-        width: 19%;  /* adjust this to your needs */
-        padding: 10px;
-        margin-bottom: 10px;
-    }
+                margin: 5px 0;
+                padding: 10px;
+                width: 50%; /* adjusted width */
+                font-size: 1.2em; /* adjusted font size */
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                color: #333;
+                background-color: #fff;
+            }
 
-    input[type="submit"] {
-        width: 20%;  /* adjust this to your needs */
-        padding: 10px;
-        background-color: #ff4b3e;
-        border: none;
-        color: white;
-    }
+            input[type="submit"] {
+                margin: 5px 0;
+                padding: 10px;
+                width: 20%; /* adjusted width */
+                font-size: 1.2em; /* adjusted font size */
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                background-color: #4A7BB3;
+                color: #333;
+                cursor: pointer;
+                transition: background-color 0.5s;
+            }
             
-             ol, li {
-    margin: 0;
-    padding: 0;
-    list-style-position: inside;
-}
-
- a.back-to-index {
-    display: inline-block;
-    margin-bottom: 20px;
-    padding: 10px;
-    color: white;
-    text-decoration: none;
-    border: 1px solid #EC5A49;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-a.back-to-index:hover {
-    background-color: #EC5A49;
-    color: #000000;
-}
-
 
 </style>
 

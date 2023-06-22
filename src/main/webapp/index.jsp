@@ -5,35 +5,37 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Welcome Page</title>
           <style>
-            body {
+              body {
                 font-family: 'Helvetica', serif;
                 margin: 0;
                 padding: 0;
-                background-color: #000;
-                color: #fff;
+                background-color: #f4f4f4;
+                color: #333;
             }
 
             h1 {
-                font-size: 4.5em;
+                font-size: 2.5em;
                 text-align: center;
                 padding: 20px 0;
-                border-bottom: 1px solid #fff;
+                border-bottom: 1px solid #ddd;
+                margin-bottom: 20px;
             }
 
             p {
                 text-align: center;
-                font-size: 2.8em;
+                font-size: 1.5em;
                 padding: 15px 0;
+                margin-bottom: 20px;
             }
 
             a {
-                color: #ff4b3e;
+                color: #337ab7;
                 text-decoration: none;
                 transition: color 0.5s;
             }
 
             a:hover {
-                color: #fff;
+                color: #23527c;
             }
         </style>
     </head>

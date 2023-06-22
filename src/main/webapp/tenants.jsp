@@ -5,80 +5,93 @@
    <head>
       <title>Tenant List</title>
       <style>
-         body {
-         font-family: 'Helvetica', serif;
-         margin: 0;
-         padding: 0;
-         background-color: #000;
-         color: #fff;
-         }
-         h1 {
-         font-size: 4.5em;
-         text-align: center;
-         padding: 20px 0;
-         border-bottom: 1px solid #fff;
-         }
-         form {
-         margin-bottom: 20px;
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-         }
-         input[type="text"] {
-         margin: 5px 0;
-         padding: 10px;
-         width: 19%;
-         border-radius: 5px;
-         border: 1px solid #ccc;
-         color: #000;
-         background-color: #fff;
-         }
-         input[type="submit"] {
-         margin: 5px 0;
-         padding: 10px;
-         width: 20%;
-         border-radius: 5px;
-         border: 1px solid #ccc;
-         background-color: #ff4b3e;
-         color: #000;
-         cursor: pointer;
-         transition: background-color 0.5s;
-         }
-         input[type="submit"]:hover {
-         background-color: #fff;
-         }
-         .movie {
-         border-bottom: 1px solid #fff;
-         padding-bottom: 10px;
-         margin-bottom: 20px;
-         font-size: 2.8em;
-         text-align: center;
-         }
-         p#error {
-         color: #ff4b3e;
-         }
-         div {
-         padding: 0 20px;
-         }
-         ol, li {
-         margin: 0;
-         padding: 0;
-         list-style-position: inside;
-         }
-         a.back-to-index {
-         display: inline-block;
-         margin-bottom: 20px;
-         padding: 10px;
-         color: white;
-         text-decoration: none;
-         border: 1px solid #EC5A49;
-         border-radius: 5px;
-         transition: background-color 0.3s, color 0.3s;
-         }
-         a.back-to-index:hover {
-         background-color: #EC5A49;
-         color: #000000;
-         }        
+          body {
+    font-family: 'Helvetica', serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h1 {
+    font-size: 2.5em;
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+form {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="text"] {
+    margin: 5px 0;
+    padding: 10px;
+    width: 50%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    color: #333;
+    background-color: #fff;
+    font-size: 1.2em;
+}
+
+input[type="submit"] {
+    margin: 5px 0;
+    padding: 10px;
+    width: 20%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #4A7BB3;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.5s;
+}
+
+input[type="submit"]:hover {
+    background-color: #fff;
+}
+
+.movie {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+p#error {
+    color: #ff4b3e;
+}
+
+div {
+    padding: 0 20px;
+}
+
+ol, li {
+    margin: 0;
+    padding: 0;
+    list-style-position: inside;
+}
+
+a.back-to-index {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px;
+    color: #337ab7;
+    text-decoration: none;
+    border: 1px solid #4A7BB3;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+a.back-to-index:hover {
+    background-color: #4A7BB3;
+    color: #fff;
+}
       </style>
    </head>
    <body>
@@ -124,7 +137,7 @@
                   Phone Number: <%= tenant.getPhoneNumber() %>,
                   Move-in Date: <%= DateConverter.getMoveInDate() %>
                   <% if (tenant.getApartment() != null) { %>
-                  Apartment: <%= tenant.getApartment().getId() %>,
+                  Apartment
                   Address: <%= tenant.getApartment().getAddress() %>,
                   Rent: $<%= String.format("%.2f", tenant.getApartment().getRent()) %>
                   <% } else { %>
