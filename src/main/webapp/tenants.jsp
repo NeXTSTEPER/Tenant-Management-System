@@ -90,22 +90,24 @@
          <p style="color:red;"><%= request.getAttribute("error") %></p>
          <% } %>
          <form method="POST" action="TenantsServlet" onsubmit="return validateForm()">
-             <p> Tenant Name: </p> <input type="text" id="tenantName" name="tenantName" />
-            <p>Tenant Phone Number:</p> <input type="text" id="tenantPhoneNumber" name="tenantPhoneNumber" />
-           <p> Rooms Desired:</p> <input type="text" id="roomsDesired" name="roomsDesired" />
-           <select id="apartmentId" name="apartmentId" onchange="validateRooms()">
-   <% 
-      @SuppressWarnings("unchecked")
-      List<Apartment> apartments = (List<Apartment>)request.getAttribute("apartments");
-      int counter = 0;
-      for (Apartment apartment : apartments) {
-      %>
-   <option value="<%=apartment.getId()%>" <%= counter++ == 0 ? "selected" : "" %>><%=apartment.getId()%></option>
-   <% 
-      }
-      %>
-</select>
-
+            <p> Tenant Name: </p>
+            <input type="text" id="tenantName" name="tenantName" />
+            <p>Tenant Phone Number #</p>
+            <input type="text" id="tenantPhoneNumber" name="tenantPhoneNumber" />
+            <p> Rooms Desired:</p>
+            <input type="text" id="roomsDesired" name="roomsDesired" />
+            <select id="apartmentId" name="apartmentId" onchange="validateRooms()">
+               <% 
+                  @SuppressWarnings("unchecked")
+                  List<Apartment> apartments = (List<Apartment>)request.getAttribute("apartments");
+                  int counter = 0;
+                  for (Apartment apartment : apartments) {
+                  %>
+               <option value="<%=apartment.getId()%>" <%= counter++ == 0 ? "selected" : "" %>><%=apartment.getId()%></option>
+               <% 
+                  }
+                  %>
+            </select>
             <input type="submit" value="Add" />
             <p id="error" style="color:red; display:none">Please enter a tenant name, phone number, and number of rooms desired.</p>
          </form>
@@ -117,12 +119,14 @@
                for (Tenants tenant : tenants) {
                %>
             <div class="tenant">
-            <li> 
+             <li> 
     Tenant name: <%= tenant.getName() %>, 
     Phone Number: <%= tenant.getPhoneNumber() %> -
     <% if (tenant.getApartment() != null) { %>
         Apartment: <%= tenant.getApartment().getId() %>,
-        Rent: <%= tenant.getApartment().getRent() %>
+        Address: <%= tenant.getApartment().getAddress() %>,
+        Rent: $<%= String.format("%.2f", tenant.getApartment().getRent()) %>
+        
     <% } else { %>
         (No apartment assigned)
     <% } %>
@@ -130,26 +134,28 @@
 
                <form method="POST" action="TenantsServlet">
                   <input type="hidden" name="id" value="<%=tenant.getId()%>" />
-                <p> Tenant Name </p> <input type="text" name="tenantName" value="<%=tenant.getName()%>" />
-                 <p>Phone Number # </p><input type="text" name="tenantPhoneNumber" value="<%=tenant.getPhoneNumber()%>" />
-                   <p>Rooms Desired: </p><input type="text" name="roomsDesired" value="<%=tenant.getNumberOfRoomsDesired()%>" />
+                  <p> Tenant Name </p>
+                  <input type="text" name="tenantName" value="<%=tenant.getName()%>" />
+                  <p>Phone Number # </p>
+                  <input type="text" name="tenantPhoneNumber" value="<%=tenant.getPhoneNumber()%>" />
+                  <p>Rooms Desired: </p>
+                  <input type="text" name="roomsDesired" value="<%=tenant.getNumberOfRoomsDesired()%>" />
                   <select id="apartmentId" name="apartmentId">
-   <% 
-       counter = 0;
-      for (Apartment apartment : apartments) {
-         String selected = "";
-         if (tenant.getApartment() != null && tenant.getApartment().getId() == apartment.getId()) {
-            selected = "selected";
-         } else if (counter++ == 0 && tenant.getApartment() == null) {
-            selected = "selected";
-         }
-      %>
-   <option value="<%=apartment.getId()%>" <%=selected%>><%=apartment.getId()%></option>
-   <% 
-      }
-      %>
-</select>
-
+                     <% 
+                        counter = 0;
+                        for (Apartment apartment : apartments) {
+                          String selected = "";
+                          if (tenant.getApartment() != null && tenant.getApartment().getId() == apartment.getId()) {
+                             selected = "selected";
+                          } else if (counter++ == 0 && tenant.getApartment() == null) {
+                             selected = "selected";
+                          }
+                        %>
+                     <option value="<%=apartment.getId()%>" <%=selected%>><%=apartment.getId()%></option>
+                     <% 
+                        }
+                        %>
+                  </select>
                   <input type="hidden" name="operation" value="update" />
                   <input type="submit" value="Update" />
                </form>

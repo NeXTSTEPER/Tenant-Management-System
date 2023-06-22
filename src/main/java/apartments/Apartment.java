@@ -75,6 +75,11 @@ public class Apartment implements Serializable {
     public double getRent() {
         return rent;
     }
+    
+    
+    public String getFormattedRent() {
+        return String.format("%.2f", this.rent);
+    }
 
     public void setRent(double rent) {
         this.rent = rent;
