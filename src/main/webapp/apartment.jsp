@@ -149,17 +149,26 @@ a.back-to-index:hover {
             <hr>
         </div>
         <script>
-            function validateForm() {
-                var address = document.getElementById('address').value;
-                var rent = document.getElementById('rent').value;
-                var numberOfRooms = document.getElementById('numberOfRooms').value;
-                if (address == "" || rent == "" || numberOfRooms == "") {
-                    document.getElementById('error').style.display = 'block';
-                    return false;
-                } else {
-                    return true;
-                }
+        function validateForm() {
+            var address = document.getElementById('address').value;
+            var rent = document.getElementById('rent').value;
+            var numberOfRooms = document.getElementById('numberOfRooms').value;
+            
+            if (address == "" || rent == "" || numberOfRooms == "") {
+                document.getElementById('error').style.display = 'block';
+                return false;
+            } else if (isNaN(rent)) {
+                alert('Please enter a numeric value for rent.');
+                return false;
+            } else if (!Number.isInteger(parseFloat(numberOfRooms)) || numberOfRooms < 1) {
+                alert('Please enter a valid number of rooms (integer greater than 0).');
+                return false;
+            } else {
+                return true;
             }
+        }
+        
+        
         </script>
     </body>
 </html>
