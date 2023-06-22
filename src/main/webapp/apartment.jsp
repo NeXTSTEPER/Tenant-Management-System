@@ -118,29 +118,31 @@ a.back-to-index:hover {
                 <p id="error" style="color:red; display:none">Please enter an address, rent, and number of rooms.</p>
             </form>
             <hr>
-            <ol> 
+           <ol> 
                 <%
                  @SuppressWarnings("unchecked")
                  List<Apartment> apartments = (List<Apartment>)request.getAttribute("apartments");
                  for (Apartment apartment : apartments) {
                 %>
                     <div class="apartment">
-                      
                         <form method="POST" action="ApartmentServlet">
                             <input type="hidden" name="id" value="<%=apartment.getId()%>" />
-                             <p> Address</p><input type="text" name="address" value="<%=apartment.getAddress()%>" />
-                           <p> Rent:</p> <input type="text" name="rent" value=<%=apartment.getFormattedRent()%>  />
+                            <p> Address</p><input type="text" name="address" value="<%=apartment.getAddress()%>" />
+                            <input type="hidden" name="isSelected" value="<%=apartment.isSelected()%>" />
+                            <p> Rent:</p> <input type="text" name="rent" value=<%=apartment.getFormattedRent()%>  />
                             <p> Number of Rooms:</p> <input type="text" name="numberOfRooms" value="<%=apartment.getNumberOfRooms()%>" />
                             <input type="hidden" name="operation" value="update" />
                             <input type="submit" value="Update" />
                         </form>
-
                         <form method="POST" action="ApartmentServlet">
                             <input type="hidden" name="id" value="<%=apartment.getId()%>" />
                             <input type="hidden" name="operation" value="delete" />
-                            <input type="submit" value="Delete" />
+                            <% if (!apartment.isSelected()) { %>
+                                <input type="submit" value="Delete" />
+                            <% } else { %>
+                                <input type="button" value="Cannot Delete: Apartment is Occupied" />
+                            <% } %>
                         </form>
-                        
                     </div>
                 <% } %>
             </ol>

@@ -54,14 +54,19 @@ public class ApartmentServlet extends HttpServlet {
         EntityManager em = emf.createEntityManager();
 
         try {
-            if (operation != null && operation.equals("delete") && id != null) {
-                em.getTransaction().begin();
-                Apartment apartment = em.find(Apartment.class, Integer.parseInt(id));
-                if (apartment != null) {
-                    em.remove(apartment);
-                }
-                em.getTransaction().commit();
-            } 
+        	if (operation != null && operation.equals("delete") && id != null) {
+        	    em.getTransaction().begin();
+        	    Apartment apartment = em.find(Apartment.class, Integer.parseInt(id));
+        	    if (apartment != null) {
+        	        if (apartment.isSelected()) {
+        	            request.setAttribute("error", "This apartment is occupied. You cannot delete it.");
+        	            request.getRequestDispatcher("/apartment.jsp").forward(request, response);
+        	            return;
+        	        }
+        	        em.remove(apartment);
+        	    }
+        	    em.getTransaction().commit();
+        	}
             else if (operation != null && operation.equals("update") && address != null && !address.trim().isEmpty() && rent != null && !rent.trim().isEmpty() && numberOfRooms != null && !numberOfRooms.trim().isEmpty() && id != null) {
                 em.getTransaction().begin();
                 Apartment apartment = em.find(Apartment.class, Integer.parseInt(id));

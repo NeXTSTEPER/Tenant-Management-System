@@ -97,18 +97,17 @@
             <p> Rooms Desired:</p>
             <input type="text" id="roomsDesired" name="roomsDesired" />
             <select id="apartmentId" name="apartmentId" onchange="validateRooms()">
-    <% 
-       @SuppressWarnings("unchecked")
-       List<Apartment> apartments = (List<Apartment>)request.getAttribute("apartments");
-       int counter = 0;
-       for (Apartment apartment : apartments) {
-    %>
-    <option value="<%=apartment.getId()%>" <%= counter++ == 0 ? "selected" : "" %>><%=apartment.getAddress()%> - $<%= String.format("%.2f", apartment.getRent()) %></option>
-    <% 
-       }
-    %>
-</select>
-
+               <% 
+                  @SuppressWarnings("unchecked")
+                  List<Apartment> apartments = (List<Apartment>)request.getAttribute("apartments");
+                  int counter = 0;
+                  for (Apartment apartment : apartments) {
+                  %>
+               <option value="<%=apartment.getId()%>" <%= counter++ == 0 ? "selected" : "" %>><%=apartment.getAddress()%> - $<%= String.format("%.2f", apartment.getRent()) %></option>
+               <% 
+                  }
+                  %>
+            </select>
             <input type="submit" value="Add" />
             <p id="error" style="color:red; display:none">Please enter a tenant name, phone number, and number of rooms desired.</p>
          </form>
@@ -120,18 +119,18 @@
                for (Tenants tenant : tenants) {
                %>
             <div class="tenant">
-              <li> 
-    Tenant name: <%= tenant.getName() %>, 
-    Phone Number: <%= tenant.getPhoneNumber() %>,
-    Move-in Date: <%= DateConverter.getMoveInDate() %>
-    <% if (tenant.getApartment() != null) { %>
-        Apartment: <%= tenant.getApartment().getId() %>,
-        Address: <%= tenant.getApartment().getAddress() %>,
-        Rent: $<%= String.format("%.2f", tenant.getApartment().getRent()) %>
-    <% } else { %>
-        (No apartment assigned)
-    <% } %>
-</li>
+               <li> 
+                  Tenant name: <%= tenant.getName() %>, 
+                  Phone Number: <%= tenant.getPhoneNumber() %>,
+                  Move-in Date: <%= DateConverter.getMoveInDate() %>
+                  <% if (tenant.getApartment() != null) { %>
+                  Apartment: <%= tenant.getApartment().getId() %>,
+                  Address: <%= tenant.getApartment().getAddress() %>,
+                  Rent: $<%= String.format("%.2f", tenant.getApartment().getRent()) %>
+                  <% } else { %>
+                  (No apartment assigned)
+                  <% } %>
+               </li>
                <form method="POST" action="TenantsServlet">
                   <input type="hidden" name="id" value="<%=tenant.getId()%>" />
                   <p> Tenant Name </p>
@@ -141,22 +140,21 @@
                   <p>Rooms Desired: </p>
                   <input type="text" name="roomsDesired" value="<%=tenant.getNumberOfRoomsDesired()%>" />
                   <select id="apartmentId" name="apartmentId">
-    <% 
-       counter = 0;
-       for (Apartment apartment : apartments) {
-           String selected = "";
-           if (tenant.getApartment() != null && tenant.getApartment().getId() == apartment.getId()) {
-               selected = "selected";
-           } else if (counter++ == 0 && tenant.getApartment() == null) {
-               selected = "selected";
-           }
-    %>
-    <option value="<%=apartment.getId()%>" <%=selected%>><%=apartment.getAddress()%> - $<%= String.format("%.2f", apartment.getRent()) %></option>
-    <% 
-       }
-    %>
-</select>
-
+                     <% 
+                        counter = 0;
+                        for (Apartment apartment : apartments) {
+                            String selected = "";
+                            if (tenant.getApartment() != null && tenant.getApartment().getId() == apartment.getId()) {
+                                selected = "selected";
+                            } else if (counter++ == 0 && tenant.getApartment() == null) {
+                                selected = "selected";
+                            }
+                        %>
+                     <option value="<%=apartment.getId()%>" <%=selected%>><%=apartment.getAddress()%> - $<%= String.format("%.2f", apartment.getRent()) %></option>
+                     <% 
+                        }
+                        %>
+                  </select>
                   <input type="hidden" name="operation" value="update" />
                   <input type="submit" value="Update" />
                </form>
@@ -171,38 +169,38 @@
          <hr>
       </div>
       <script>
-      function validateForm() {
-    	    var tenantName = document.getElementById('tenantName').value;
-    	    var tenantPhoneNumber = document.getElementById('tenantPhoneNumber').value;
-    	    var roomsDesired = document.getElementById('roomsDesired').value;
-    	    if (tenantName == "" || tenantPhoneNumber == "" || roomsDesired == "") {
-    	        document.getElementById('error').style.display = 'block';
-    	        return false;
-    	    } else if (tenantPhoneNumber.length != 10 || isNaN(tenantPhoneNumber)) {
-    	        alert('Please enter a valid 10-digit phone number.');
-    	        return false;
-    	    } else {
-    	        return true;
-    	    }
-    	}
-
-         
-         function validateRooms() {
-             var apartmentId = document.getElementById('apartmentId').value;
-             var roomsDesired = document.getElementById('roomsDesired').value; // Assuming you have an input field with id 'roomsDesired'
-         
-             // Fetch the number of rooms for the selected apartment
-             // This would require an API endpoint in your servlet that returns the number of rooms for a given apartment ID
-             fetch('/TenantsServlet?operation=getNumberOfRooms&apartmentId=' + apartmentId)
-             .then(response => response.text())
-             .then(numberOfRooms => {
-                 if (parseInt(roomsDesired) > parseInt(numberOfRooms)) {
-                     alert('The number of rooms desired by the tenant is greater than the number of rooms in the selected apartment. Please choose a different apartment.');
-                 }
-             });
+         function validateForm() {
+            var tenantName = document.getElementById('tenantName').value;
+            var tenantPhoneNumber = document.getElementById('tenantPhoneNumber').value;
+            var roomsDesired = document.getElementById('roomsDesired').value;
+            if (tenantName == "" || tenantPhoneNumber == "" || roomsDesired == "") {
+                document.getElementById('error').style.display = 'block';
+                return false;
+            } else if (tenantPhoneNumber.length != 10 || isNaN(tenantPhoneNumber)) {
+                alert('Please enter a valid 10-digit phone number.');
+                return false;
+            } else {
+                return true;
+            }
          }
          
-         
+            
+            function validateRooms() {
+                var apartmentId = document.getElementById('apartmentId').value;
+                var roomsDesired = document.getElementById('roomsDesired').value; // Assuming you have an input field with id 'roomsDesired'
+            
+                // Fetch the number of rooms for the selected apartment
+                // This would require an API endpoint in your servlet that returns the number of rooms for a given apartment ID
+                fetch('/TenantsServlet?operation=getNumberOfRooms&apartmentId=' + apartmentId)
+                .then(response => response.text())
+                .then(numberOfRooms => {
+                    if (parseInt(roomsDesired) > parseInt(numberOfRooms)) {
+                        alert('The number of rooms desired by the tenant is greater than the number of rooms in the selected apartment. Please choose a different apartment.');
+                    }
+                });
+            }
+            
+            
       </script>
    </body>
 </html>
