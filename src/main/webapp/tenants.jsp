@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@page import="java.util.*,tenants.Tenants,apartments.Apartment"%>
+<%@page import="java.util.*,tenants.Tenants,apartments.Apartment, apartments.DateConverter"%>
 <!DOCTYPE html>
 <html>
    <head>
@@ -97,17 +97,18 @@
             <p> Rooms Desired:</p>
             <input type="text" id="roomsDesired" name="roomsDesired" />
             <select id="apartmentId" name="apartmentId" onchange="validateRooms()">
-               <% 
-                  @SuppressWarnings("unchecked")
-                  List<Apartment> apartments = (List<Apartment>)request.getAttribute("apartments");
-                  int counter = 0;
-                  for (Apartment apartment : apartments) {
-                  %>
-               <option value="<%=apartment.getId()%>" <%= counter++ == 0 ? "selected" : "" %>><%=apartment.getId()%></option>
-               <% 
-                  }
-                  %>
-            </select>
+    <% 
+       @SuppressWarnings("unchecked")
+       List<Apartment> apartments = (List<Apartment>)request.getAttribute("apartments");
+       int counter = 0;
+       for (Apartment apartment : apartments) {
+    %>
+    <option value="<%=apartment.getId()%>" <%= counter++ == 0 ? "selected" : "" %>><%=apartment.getAddress()%> - $<%= String.format("%.2f", apartment.getRent()) %></option>
+    <% 
+       }
+    %>
+</select>
+
             <input type="submit" value="Add" />
             <p id="error" style="color:red; display:none">Please enter a tenant name, phone number, and number of rooms desired.</p>
          </form>
@@ -119,19 +120,18 @@
                for (Tenants tenant : tenants) {
                %>
             <div class="tenant">
-             <li> 
+              <li> 
     Tenant name: <%= tenant.getName() %>, 
-    Phone Number: <%= tenant.getPhoneNumber() %> -
+    Phone Number: <%= tenant.getPhoneNumber() %>,
+    Move-in Date: <%= DateConverter.getMoveInDate() %>
     <% if (tenant.getApartment() != null) { %>
         Apartment: <%= tenant.getApartment().getId() %>,
         Address: <%= tenant.getApartment().getAddress() %>,
         Rent: $<%= String.format("%.2f", tenant.getApartment().getRent()) %>
-        
     <% } else { %>
         (No apartment assigned)
     <% } %>
 </li>
-
                <form method="POST" action="TenantsServlet">
                   <input type="hidden" name="id" value="<%=tenant.getId()%>" />
                   <p> Tenant Name </p>
@@ -141,21 +141,22 @@
                   <p>Rooms Desired: </p>
                   <input type="text" name="roomsDesired" value="<%=tenant.getNumberOfRoomsDesired()%>" />
                   <select id="apartmentId" name="apartmentId">
-                     <% 
-                        counter = 0;
-                        for (Apartment apartment : apartments) {
-                          String selected = "";
-                          if (tenant.getApartment() != null && tenant.getApartment().getId() == apartment.getId()) {
-                             selected = "selected";
-                          } else if (counter++ == 0 && tenant.getApartment() == null) {
-                             selected = "selected";
-                          }
-                        %>
-                     <option value="<%=apartment.getId()%>" <%=selected%>><%=apartment.getId()%></option>
-                     <% 
-                        }
-                        %>
-                  </select>
+    <% 
+       counter = 0;
+       for (Apartment apartment : apartments) {
+           String selected = "";
+           if (tenant.getApartment() != null && tenant.getApartment().getId() == apartment.getId()) {
+               selected = "selected";
+           } else if (counter++ == 0 && tenant.getApartment() == null) {
+               selected = "selected";
+           }
+    %>
+    <option value="<%=apartment.getId()%>" <%=selected%>><%=apartment.getAddress()%> - $<%= String.format("%.2f", apartment.getRent()) %></option>
+    <% 
+       }
+    %>
+</select>
+
                   <input type="hidden" name="operation" value="update" />
                   <input type="submit" value="Update" />
                </form>
@@ -170,17 +171,21 @@
          <hr>
       </div>
       <script>
-         function validateForm() {
-             var tenantName = document.getElementById('tenantName').value;
-             var tenantPhoneNumber = document.getElementById('tenantPhoneNumber').value;
-             var roomsDesired = document.getElementById('roomsDesired').value;
-             if (tenantName == "" || tenantPhoneNumber == "" || roomsDesired == "") {
-                 document.getElementById('error').style.display = 'block';
-                 return false;
-             } else {
-                 return true;
-             }
-         }
+      function validateForm() {
+    	    var tenantName = document.getElementById('tenantName').value;
+    	    var tenantPhoneNumber = document.getElementById('tenantPhoneNumber').value;
+    	    var roomsDesired = document.getElementById('roomsDesired').value;
+    	    if (tenantName == "" || tenantPhoneNumber == "" || roomsDesired == "") {
+    	        document.getElementById('error').style.display = 'block';
+    	        return false;
+    	    } else if (tenantPhoneNumber.length != 10 || isNaN(tenantPhoneNumber)) {
+    	        alert('Please enter a valid 10-digit phone number.');
+    	        return false;
+    	    } else {
+    	        return true;
+    	    }
+    	}
+
          
          function validateRooms() {
              var apartmentId = document.getElementById('apartmentId').value;

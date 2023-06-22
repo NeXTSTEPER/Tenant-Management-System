@@ -128,8 +128,8 @@ a.back-to-index:hover {
                       
                         <form method="POST" action="ApartmentServlet">
                             <input type="hidden" name="id" value="<%=apartment.getId()%>" />
-                            <input type="text" name="address" value="<%=apartment.getAddress()%>" />
-                           <p> Rent:</p> <input type="text" name="rent" value=$<%=apartment.getFormattedRent()%>  />
+                             <p> Address</p><input type="text" name="address" value="<%=apartment.getAddress()%>" />
+                           <p> Rent:</p> <input type="text" name="rent" value=<%=apartment.getFormattedRent()%>  />
                             <p> Number of Rooms:</p> <input type="text" name="numberOfRooms" value="<%=apartment.getNumberOfRooms()%>" />
                             <input type="hidden" name="operation" value="update" />
                             <input type="submit" value="Update" />
