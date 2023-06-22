@@ -1,3 +1,9 @@
+/**
+ * @author - Alex Cox
+ * CIS175 2023
+ * 
+ */
+
 package tenants;
 
 import java.io.IOException;

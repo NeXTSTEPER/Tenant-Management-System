@@ -4,8 +4,6 @@
  * 
  */
 
-
-
 package apartments;
 
 import java.io.Serializable;
@@ -20,42 +18,39 @@ import javax.persistence.Table;
 @Table(name="apartments")
 public class Apartment implements Serializable {
     
+  
     private static final long serialVersionUID = 1L;
 
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    // Column for the apartment's address
     private String address;
 
+    // Column for the rent cost of the apartment
     private double rent;
 
+    // Column for the number of rooms in the apartment
     private int numberOfRooms;
     
-    public boolean isSelected() {
-		return isSelected;
-	}
+    // Column to check if the apartment is selected or not
+    private boolean isSelected;
 
-	public void setSelected(boolean isSelected) {
-		this.isSelected = isSelected;
-	}
-
-	private boolean isSelected;
-
+    // Default constructor
     public Apartment() {
     }
 
+    // Parameterized constructor to create a new Apartment object
     public Apartment(String address, double rent, int numberOfRooms) {
         this.address = address;
         this.rent = rent;
         this.numberOfRooms = numberOfRooms;
     }
 
-    @Override
-    public String toString() {
-        return "Apartment at " + this.address + " with rent " + this.rent + " and number of rooms " + this.numberOfRooms;
-    }
-
+    // Getters and setters for the fields
+    
     public int getId() {
         return id;
     }
@@ -75,8 +70,8 @@ public class Apartment implements Serializable {
     public double getRent() {
         return rent;
     }
-    
-    
+
+    // Returns the rent value formatted as a string with two decimal places
     public String getFormattedRent() {
         return String.format("%.2f", this.rent);
     }
@@ -91,5 +86,19 @@ public class Apartment implements Serializable {
 
     public void setNumberOfRooms(int numberOfRooms) {
         this.numberOfRooms = numberOfRooms;
+    }
+    
+    public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
+	}
+    
+    // toString method to print a readable string of the Apartment object
+    @Override
+    public String toString() {
+        return "Apartment at " + this.address + " with rent " + this.rent + " and number of rooms " + this.numberOfRooms;
     }
 }
