@@ -5,16 +5,17 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Welcome Page</title>
           <style>
-              body {
+               body {
                 font-family: 'Helvetica', serif;
                 margin: 0;
                 padding: 0;
                 background-color: #f4f4f4;
                 color: #333;
+                font-size: 1.2em; 
             }
 
             h1 {
-                font-size: 2.5em;
+                font-size: 3em; 
                 text-align: center;
                 padding: 20px 0;
                 border-bottom: 1px solid #ddd;
@@ -23,7 +24,7 @@
 
             p {
                 text-align: center;
-                font-size: 1.5em;
+                font-size: 2em; 
                 padding: 15px 0;
                 margin-bottom: 20px;
             }
